@@ -32,13 +32,9 @@ import scala.Tuple2;
  * Created by bing on 17/7/24.
  */
 public class App {
-
-
-
     public static void main(String[] args) throws Exception{
         runBasicExample();
     }
-
 
 
     private static void runBasicExample() {
@@ -84,7 +80,5 @@ public class App {
             return integer + integer2;
         }
     }
-
-
 
 }
