@@ -33,9 +33,18 @@ import scala.Tuple2;
  */
 public class App {
     public static void main(String[] args) throws Exception{
-        runBasicExample();
+//        runBasicExample();
+        getTextFromHDFS();
     }
 
+    private static void getTextFromHDFS() {
+        SparkConf conf = new SparkConf().setAppName("simple").setMaster("local");
+        JavaSparkContext sc = new JavaSparkContext(conf);
+        JavaRDD<String> data = sc.textFile("hdfs://szwg-ecomon-hdfs.dmop.baidu"
+                + ".com:54310/app/dt/bigdata/dba/?config=dba-meta");
+        System.out.println(data.first());
+        data.collect().forEach(x -> System.out.println(x));
+    }
 
     private static void runBasicExample() {
         SparkConf conf = new SparkConf().setAppName("simple").setMaster("local");
