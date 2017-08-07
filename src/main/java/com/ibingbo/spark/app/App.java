@@ -1,6 +1,7 @@
 package com.ibingbo.spark.app;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
+import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.DataType;
 import org.apache.spark.sql.types.DataTypes;
@@ -34,7 +36,22 @@ import scala.Tuple2;
 public class App {
     public static void main(String[] args) throws Exception{
 //        runBasicExample();
-        getTextFromHDFS();
+//        getTextFromHDFS();
+        getTextFromExcel();
+    }
+
+    private static void getTextFromExcel() {
+        SparkConf conf = new SparkConf().setAppName("simple").setMaster("local");
+        JavaSparkContext sc = new JavaSparkContext(conf);
+        JavaRDD<String> data = sc.textFile("src/main/resources/test.csv");
+        data.collect().forEach(x -> {
+            try {
+                System.out.println(new String(x.getBytes("GBK"), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 
     private static void getTextFromHDFS() {
